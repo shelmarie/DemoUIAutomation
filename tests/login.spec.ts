@@ -18,6 +18,6 @@ test.describe('SauceDemo Login (POM)', () => {  // Group tests related to SauceD
         await loginPage.login('invalid_user', 'invalid_password');  // Attempt to login with invalid credentials
 
         await expect(loginPage.errorMessage).toBeVisible();  // Asserts that the error message is visible
-        await expect(loginPage.errorMessage).toHaveText('Username and/or password do not match');  // Asserts that the error message contains the expected text 
+        await expect(loginPage.errorMessage).toHaveText('Epic sadface: Username and password do not match any user in this service');  // Asserts that the error message contains the expected text 
     });
 });
