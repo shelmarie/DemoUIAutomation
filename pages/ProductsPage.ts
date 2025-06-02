@@ -35,4 +35,23 @@ export class ProductsPage {  // Define the ProductsPage class to encapsulate pro
         const cartButton = this.page.locator('.shopping_cart_link');  // Locate the cart button
         await expect(cartButton).toHaveText(productNames.length.toString());  // Assert that the cart button shows the correct number of items
     }
+
+    async removeFromCart(productName: string) {
+        const slug = productName.toLowerCase().replaceAll(' ', '-');  // Convert product name to slug format
+        const removeButtonName = `remove-${slug}`;  // Create remove button name based on the slug
+
+        const product = this.page
+            .locator('.inventory_item')
+            .filter({ has: this.page.locator(`.inventory_item_name:has-text("${productName}")`) });
+
+        const removeButton = product.locator(`button[name="${removeButtonName}"]`);  // Locate the "Remove" button using the button name
+        await expect(removeButton).toBeVisible({timeout:5000});  // Ensure the "Remove" button is visible before clicking
+        await removeButton.scrollIntoViewIfNeeded();  // Scroll the button into view if necessary
+        await removeButton.click();  // Click the "Remove" button
+
+        const addButtonName = `add-to-cart-${slug}`;  // Create button name for "Add to cart"
+        const addButton = product.locator(`button[name="${addButtonName}"]`);  // Locate the "Add to cart" button after removing from cart
+        await expect(addButton).toBeVisible({timeout:5000});  // Ensure the "Add to cart" button is visible after removal
+        await expect(addButton).toHaveText('Add to cart');  // Assert that the button text is "Add to cart"
+    }
 }

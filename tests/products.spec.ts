@@ -34,4 +34,16 @@ test.describe('SauceDemo Products (POM)', () => {
         const cartButton = page.locator('.shopping_cart_link');
         await expect(cartButton).toHaveText('2');  // Assert that the cart shows 2 items
     });
+
+    test('Remove a product from the cart', async ({page}) => {
+        const loginPage = new LoginPage(page);
+        const productsPage = new ProductsPage(page);
+
+        await loginPage.goto();  
+        await loginPage.login('standard_user', 'secret_sauce'); 
+
+        await productsPage.goto();
+        await productsPage.addToCart('Sauce Labs Backpack');  // Add a product to the cart
+        await productsPage.removeFromCart('Sauce Labs Backpack');  // Remove a specific product from the cart
+    });
 })
