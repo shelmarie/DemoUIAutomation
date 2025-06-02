@@ -20,5 +20,18 @@ test.describe('SauceDemo Products (POM)', () => {
         await expect(cartButton).toHaveText('1');  // Assert that the cart shows 1 item
     });
 
-    
+    test('Add multiple products to the cart', async ({page}) => {
+        const loginPage = new LoginPage(page);
+        const productsPage = new ProductsPage(page);
+
+        await loginPage.goto();  
+        await loginPage.login('standard_user', 'secret_sauce'); 
+
+        await productsPage.goto(); 
+        await productsPage.addMultipleProductsToCart(['Sauce Labs Backpack', 'Sauce Labs Bike Light']);  // Add multiple products to the cart
+
+        // Verify that the cart shows the correct number of items
+        const cartButton = page.locator('.shopping_cart_link');
+        await expect(cartButton).toHaveText('2');  // Assert that the cart shows 2 items
+    });
 })

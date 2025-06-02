@@ -29,6 +29,10 @@ export class ProductsPage {  // Define the ProductsPage class to encapsulate pro
     }
 
     async addMultipleProductsToCart(productNames: string[]) {
-        
+        for (const productName of productNames) {  // Iterate over each product name
+            await this.addToCart(productName);  // Call the addToCart method for each product
+        }
+        const cartButton = this.page.locator('.shopping_cart_link');  // Locate the cart button
+        await expect(cartButton).toHaveText(productNames.length.toString());  // Assert that the cart button shows the correct number of items
     }
 }
